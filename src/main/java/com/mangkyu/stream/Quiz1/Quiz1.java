@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 
 public class Quiz1 {
 
+    private static final String TARGET = "좋아";
+    private static final int TARGET_LENGTH = TARGET.length();
+
     // 1.1 각 취미를 선호하는 인원이 몇 명인지 계산하여라.
     public Map<String, Integer> quiz1() throws IOException {
         List<String[]> csvLines = readCsvLines();
@@ -36,6 +39,20 @@ public class Quiz1 {
     // 1.3 소개 내용에 '좋아'가 몇번 등장하는지 계산하여라.
     public int quiz3() throws IOException {
         List<String[]> csvLines = readCsvLines();
+
+
+
+        return csvLines.stream()
+                .map(line -> ContainLike(line[2], 0))
+                .reduce(0, Integer::sum);
+    }
+
+    private int ContainLike(String src, int startIndex) {
+        int idx = src.indexOf(TARGET, startIndex);
+
+        if (idx >= 0){
+            return 1 + ContainLike(src, idx + TARGET_LENGTH);
+        }
         return 0;
     }
 
